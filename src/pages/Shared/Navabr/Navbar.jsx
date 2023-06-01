@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
+import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../hooks/useCart";
 
 const Navbar = () => {
-
   const { user, logOut } = useContext(AuthContext);
-
+  const [cart] = useCart();
   const handleLogOut = () => {
-      logOut()
-          .then(() => { })
-          .catch(error => console.log(error));
-  }
+    logOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
   const nav = (
     <>
       <li>
@@ -20,7 +21,7 @@ const Navbar = () => {
         <NavLink>Contact Us </NavLink>
       </li>
       <li>
-        <NavLink>Dashboard </NavLink>
+        <NavLink to="dashboard">Dashboard </NavLink>
       </li>
       <li>
         <NavLink to="menu">Our Menu </NavLink>
@@ -31,14 +32,28 @@ const Navbar = () => {
       <li>
         <NavLink to="secret">Secret </NavLink>
       </li>
-      {
-            user ? <>
-                <span>{user?.displayName}</span>
-                <button onClick={handleLogOut} className="btn btn-ghost">LogOut</button>
-            </> : <>
-                <li><Link to="/logIn">Login</Link></li>
-            </>
-        }
+      <li>
+        <Link to="/dashboard/mycart">
+          <button className="btn gap-2">
+            <FaShoppingCart></FaShoppingCart>
+            <div className="badge badge-secondary">+{cart?.length || 0}</div>
+          </button>
+        </Link>
+      </li>
+      {user ? (
+        <>
+          <span>{user?.displayName}</span>
+          <button onClick={handleLogOut} className="btn btn-ghost">
+            LogOut
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/logIn">Login</Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -74,7 +89,9 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-center">
-        <ul className=" hidden lg:flex justify-between items-center gap-3 text-white px-1">{nav}</ul>
+        <ul className=" hidden lg:flex justify-between items-center gap-3 text-white px-1">
+          {nav}
+        </ul>
       </div>
       <div className="navbar-end block lg:hidden ">
         <a className="btn">Get started</a>
