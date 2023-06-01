@@ -27,7 +27,7 @@ const Navbar = () => {
         <NavLink to="menu">Our Menu </NavLink>
       </li>
       <li>
-        <NavLink to="ordered/salad">Our Ordered </NavLink>
+        <NavLink to="ordered/salad">Ordered Food</NavLink>
       </li>
       <li>
         <NavLink to="secret">Secret </NavLink>
@@ -40,24 +40,22 @@ const Navbar = () => {
           </button>
         </Link>
       </li>
-      {user ? (
-        <>
-          <span>{user?.displayName}</span>
-          <button onClick={handleLogOut} className="btn btn-ghost">
-            LogOut
-          </button>
-        </>
-      ) : (
-        <>
-          <li>
-            <Link to="/logIn">Login</Link>
-          </li>
-        </>
-      )}
+      <li>
+        {user ? (
+          <>
+            <span>{user?.displayName}</span>
+            <button onClick={handleLogOut} className="btn btn-ghost">
+              LogOut
+            </button>
+          </>
+        ) : (
+          <Link to="/logIn">Login</Link>
+        )}
+      </li>
     </>
   );
   return (
-    <div className="navbar max-w-6xl fixed z-10 bg-black bg-opacity-30 text-white">
+    <div className="navbar max-w-screen-xl fixed z-10 bg-black bg-opacity-30 text-white">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -92,9 +90,6 @@ const Navbar = () => {
         <ul className=" hidden lg:flex justify-between items-center gap-3 text-white px-1">
           {nav}
         </ul>
-      </div>
-      <div className="navbar-end block lg:hidden ">
-        <a className="btn">Get started</a>
       </div>
     </div>
   );
