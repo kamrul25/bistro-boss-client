@@ -4,7 +4,7 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import OrderedFood from "../../components/OrderedFood/OrderedFood";
-
+// TODO: implement pagination
 const ShopItems = ({items }) => {
   const pagination = {
     clickable: true,

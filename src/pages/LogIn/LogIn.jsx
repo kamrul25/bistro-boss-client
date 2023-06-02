@@ -28,19 +28,41 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
     signIn(email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      Swal.fire({
-        title: "User Login Successful.",
-        showClass: {
-          popup: "animate__animated animate__fadeInDown",
-        },
-        hideClass: {
-          popup: "animate__animated animate__fadeOutUp",
-        },
-      });
-      navigate(from, { replace: true });
+      const user = { name: result.user.displayName, email: result.user.email };
+
+      fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            Swal.fire({
+              title: "User Login Successful.",
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            navigate(from, { replace: true });
+          }
+
+          Swal.fire({
+            title: "User Login Successful.",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+          navigate(from, { replace: true });
+        });
     });
   };
 
@@ -110,6 +132,7 @@ const Login = () => {
                 />
               </div>
               <div className="form-control mt-6">
+                {/* TODO: correct disabled */}
                 <input
                   disabled={false}
                   className="btn btn-primary"

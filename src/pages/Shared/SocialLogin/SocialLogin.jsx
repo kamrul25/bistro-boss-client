@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 const SocialLogin = () => {
   const { signInByGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const form = location?.state?.form?.pathname || "/";
 
   const handleGoogleSignIn = () => {
     signInByGoogle()
@@ -28,8 +30,17 @@ const SocialLogin = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              navigate("/");
+              navigate(form, { replace: true });
             }
+
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User login successfully by Google.",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(form, { replace: true });
           });
       })
       .catch((error) => console.log(error));
