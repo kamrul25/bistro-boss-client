@@ -10,6 +10,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import app from "../../firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
@@ -54,19 +55,24 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         // get and post
         const user = { email: currentUser.email };
-        fetch(`https://bistro-boss-server-rouge.vercel.app/jwt`, {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(user),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // if (data.insertedId) {
 
-            // }
-            localStorage.setItem("access-token", data.token);
-            setLoading(false);
-          });
+        axios.post(`https://bistro-boss-server-rouge.vercel.app/jwt`, user)
+        .then(data=>{
+          localStorage.setItem("access-token", data.data.token);
+          setLoading(false);
+        })
+        
+        // fetch(`https://bistro-boss-server-rouge.vercel.app/jwt`, {
+        //   method: "POST",
+        //   headers: { "content-type": "application/json" },
+        //   body: JSON.stringify(user),
+        // })
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //     localStorage.setItem("access-token", data.token);
+        //     setLoading(false);
+        //   });
+    
       } else {
         localStorage.removeItem("access-token");
       }
