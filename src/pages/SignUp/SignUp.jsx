@@ -161,7 +161,7 @@ const SignUp = () => {
             <SocialLogin></SocialLogin>
             <p>
               <small>
-                Already have an account <Link to="/logIn">Login</Link>
+                Already have an account <Link to="/login">Login</Link>
               </small>
             </p>
           </div>
