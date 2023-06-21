@@ -1,10 +1,11 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import '../Payment/Common.css'
 
 const CheckOutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     // Block native form submission.
     event.preventDefault();
 
@@ -13,6 +14,7 @@ const CheckOutForm = () => {
       // form submission until Stripe.js has loaded.
       return;
     }
+
     // Get a reference to a mounted CardElement. Elements knows how
     // to find your CardElement because there can only ever be one of
     // each type of element.
@@ -22,8 +24,20 @@ const CheckOutForm = () => {
       return;
     }
 
-    
+    // Use your card Element with other Stripe.js APIs
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
+
+    if (error) {
+      console.log("[error]", error);
+    } else {
+      console.log("[PaymentMethod]", paymentMethod);
+    }
   };
+
+
   return (
     <form onSubmit={handleSubmit}>
       <CardElement
