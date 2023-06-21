@@ -51,17 +51,6 @@ const Login = () => {
             });
             navigate(from, { replace: true });
           }
-
-          Swal.fire({
-            title: "User Login Successful.",
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-          navigate(from, { replace: true });
         });
     });
   };
